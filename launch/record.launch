@@ -63,7 +63,7 @@
   </include>
 
   <arg name="_use_bag_file_name" value="$(eval not (bag_file == ''))"/>
-  <arg name="_topics_to_record" value="/$(arg ouster_ns)/imu_packets /$(arg ouster_ns)/lidar_packets"/>
+  <arg name="_topics_to_record" value="/$(arg ouster_ns)/lidar_packets"/>
 
   <node if="$(arg _use_bag_file_name)" pkg="rosbag" type="record" name="rosbag_record_sensor"
        output="screen" required="true"
