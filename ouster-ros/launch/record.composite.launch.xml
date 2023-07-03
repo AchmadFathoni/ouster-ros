@@ -2,22 +2,22 @@
 
   <arg name="ouster_ns" default="ouster"
     description="Override the default namespace of all ouster nodes"/>
-  <arg name="sensor_hostname"
+  <arg name="sensor_hostname" default="169.254.99.39"
     description="hostname or IP in dotted decimal form of the sensor"/>
-  <arg name="udp_dest" default=""
+  <arg name="udp_dest" default="169.254.173.235"
     description="hostname or IP where the sensor will send data packets"/>
-  <arg name="lidar_port" default="0"
+  <arg name="lidar_port" default="56237"
     description="port to which the sensor should send lidar data"/>
-  <arg name="imu_port" default="0"
+  <arg name="imu_port" default="57923"
     description="port to which the sensor should send imu data"/>
-  <arg name="udp_profile_lidar" default=""
+  <arg name="udp_profile_lidar" default="RNG19_RFL8_SIG16_NIR16"
     description="lidar packet profile; possible values: {
     LEGACY,
     RNG19_RFL8_SIG16_NIR16_DUAL,
     RNG19_RFL8_SIG16_NIR16,
     RNG15_RFL8_NIR8
     }"/>
-  <arg name="lidar_mode" default=""
+  <arg name="lidar_mode" default="2048x10"
     description="resolution and rate; possible values: {
     512x10,
     512x20,
@@ -26,7 +26,7 @@
     2048x10,
     4096x5
     }"/>
-  <arg name="timestamp_mode" default=""
+  <arg name="timestamp_mode" default="TIME_FROM_SYNC_PULSE_IN"
     description="method used to timestamp measurements; possible values: {
     TIME_FROM_INTERNAL_OSC,
     TIME_FROM_SYNC_PULSE_IN,
@@ -37,7 +37,7 @@
     description="path to write metadata file when receiving sensor data"/>
   <arg name="bag_file" default=""
     description="file name to use for the recorded bag file"/>
-  <arg name="viz" default="true"
+  <arg name="viz" default="false"
     description="whether to run a rviz"/>
   <arg name="rviz_config" default="$(find-pkg-share ouster_ros)/config/viz.rviz"
     description="optional rviz config file"/>
@@ -104,13 +104,11 @@
 
   <executable if="$(var _use_bag_file_name)" output="screen"
     cmd="ros2 bag record --output $(var bag_file)
-      /$(var ouster_ns)/imu_packets
       /$(var ouster_ns)/lidar_packets
       /$(var ouster_ns)/metadata"/>
 
   <executable unless="$(var _use_bag_file_name)" output="screen"
     cmd="ros2 bag record
-      /$(var ouster_ns)/imu_packets
       /$(var ouster_ns)/lidar_packets
       /$(var ouster_ns)/metadata"/>
 
