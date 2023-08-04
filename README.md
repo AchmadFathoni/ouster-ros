@@ -12,25 +12,24 @@
 | ROS2 (rolling/humble/iron) | [![rolling/humble/iron](https://github.com/ouster-lidar/ouster-ros/actions/workflows/docker-image.yml/badge.svg?branch=ros2)](https://github.com/ouster-lidar/ouster-ros/actions/workflows/docker-image.yml)
 | ROS2 (foxy) | [![foxy](https://github.com/ouster-lidar/ouster-ros/actions/workflows/docker-image.yml/badge.svg?branch=ros2-foxy)](https://github.com/ouster-lidar/ouster-ros/actions/workflows/docker-image.yml)
 
-- [Official ROS driver for Ouster sensors](#official-ros-driver-for-ouster-sensors)
-  - [Overview](#overview)
-  - [Requirements](#requirements)
-    - [Linux](#linux)
-    - [Windows](#windows)
-    - [Mac](#mac)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-    - [Launching Nodes](#launching-nodes)
-      - [Sensor Mode](#sensor-mode)
-      - [Recording Mode](#recording-mode)
-      - [Replay Mode](#replay-mode)
-      - [Multicast Mode (experimental)](#multicast-mode-experimental)
-    - [Invoking Services](#invoking-services)
-      - [GetMetadata](#getmetadata)
-      - [GetConfig](#getconfig)
-      - [SetConfig](#setconfig)
-      - [Reset](#reset)
-  - [License](#license)
+- [Overview](#overview)
+- [Requirements](#requirements)
+  - [Linux](#linux)
+  - [Windows](#windows)
+  - [Mac](#mac)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Launching Nodes](#launching-nodes)
+    - [Sensor Mode](#sensor-mode)
+    - [Recording Mode](#recording-mode)
+    - [Replay Mode](#replay-mode)
+    - [Multicast Mode (experimental)](#multicast-mode-experimental)
+  - [Invoking Services](#invoking-services)
+    - [GetMetadata](#getmetadata)
+    - [GetConfig](#getconfig)
+    - [SetConfig](#setconfig)
+    - [Reset](#reset)
+- [License](#license)
 
 
 ## Overview
@@ -136,12 +135,12 @@ To connect to a live sensor you use the following launch file
 ros2 launch ouster_ros sensor.launch.xml    \
     sensor_hostname:=<sensor host name>
 ```
-The equivalent python file is:
+The equivalent python launch file is:
 ```bash
 ros2 launch ouster_ros driver.launch.py    \
-    params_files:=<path to params yaml file>
+    params_file:=<path to params yaml file>
 ```
-If you don't pass a params_file then the file located at `ouster/config/driver_params.yaml` will be used. Note that in
+If you don't pass a `params_file` then the file located at `ouster/config/driver_params.yaml` will be used. Note that in
 the params you can start with default options for everything except the `sensor_hostname` param which you should adjust
 to match the hostname or ip address of the Ouster sensor you are trying to connect to.
 
