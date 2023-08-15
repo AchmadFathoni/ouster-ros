@@ -12,6 +12,7 @@
 // header file needs to be the first include due to PCL_NO_PRECOMPILE flag
 // clang-format off
 #include "ouster_ros/os_ros.h"
+#include <rosbag2_cpp/writer.hpp>
 // clang-format on
 
 #include <string>
@@ -183,6 +184,7 @@ class OusterSensor : public OusterSensorNodeBase {
     // TODO: add as a ros parameter
     const int max_read_imu_packet_errors = 60;
     int read_imu_packet_errors = 0;
+    std::unique_ptr<rosbag2_cpp::Writer> writer_;
 };
 
 }  // namespace ouster_ros

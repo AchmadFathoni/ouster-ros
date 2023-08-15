@@ -88,6 +88,15 @@ LifecycleNodeInterface::CallbackReturn OusterSensor::on_activate(
     if (active_config.empty() || cached_metadata.empty())
         update_config_and_metadata(*sensor_client);
     create_publishers();
+    writer_ = std::make_unique<rosbag2_cpp::Writer>();
+    uint16_t time = this->now().nanoseconds()/1e9;
+    writer_->open(std::to_string(time));
+    writer_->create_topic(
+      {"lidar_packets",
+       "ouster_msgs/msg/PacketMsg",
+       rmw_get_serialization_format(),
+       ""});
+
     allocate_buffers();
     start_packet_processing_threads();
     start_sensor_connection_thread();
@@ -642,8 +651,6 @@ void OusterSensor::create_publishers() {
     rclcpp::QoS sensor_data_qos = rclcpp::SensorDataQoS();
     auto selected_qos =
         use_system_default_qos ? system_default_qos : sensor_data_qos;
-    lidar_packet_pub =
-        create_publisher<PacketMsg>("lidar_packets", selected_qos);
     imu_packet_pub = create_publisher<PacketMsg>("imu_packets", selected_qos);
 }
 
@@ -737,7 +744,6 @@ void OusterSensor::handle_imu_packet(sensor::client& cli,
 
 void OusterSensor::cleanup() {
     sensor_client.reset();
-    lidar_packet_pub.reset();
     imu_packet_pub.reset();
     get_metadata_srv.reset();
     get_config_srv.reset();
@@ -832,7 +838,7 @@ void OusterSensor::on_lidar_packet_msg(const uint8_t* raw_lidar_packet) {
     // now we are focusing on optimizing the code for OusterDriver
     std::memcpy(lidar_packet.buf.data(), raw_lidar_packet,
                 lidar_packet.buf.size());
-    lidar_packet_pub->publish(lidar_packet);
+    writer_->write(lidar_packet, "lidar_packets", this->now());
 }
 
 void OusterSensor::on_imu_packet_msg(const uint8_t* raw_imu_packet) {

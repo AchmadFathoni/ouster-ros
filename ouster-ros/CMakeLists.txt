@@ -21,6 +21,7 @@ find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common)
 find_package(pcl_conversions REQUIRED)
 find_package(tf2_eigen REQUIRED)
+find_package(rosbag2_cpp REQUIRED)
 
 # ==== Options ====
 add_compile_options(-Wall -Wextra)
@@ -103,6 +104,7 @@ function(create_ros2_component
     std_msgs
     sensor_msgs
     geometry_msgs
+    rosbag2_cpp
     ${additonal_dependencies}
   )
 
