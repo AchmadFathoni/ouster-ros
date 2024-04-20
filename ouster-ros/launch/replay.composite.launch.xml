@@ -5,17 +5,19 @@
   <!-- TODO: revisit the proper behaviour of allowing users override the default timestamp_mode during replay -->
   <arg name="timestamp_mode" default=""
     description="method used to timestamp measurements; possible values: {
-    TIME_FROM_INTERNAL_OSC,
+        TIME_FROM_INTERNAL_OSC,
     TIME_FROM_SYNC_PULSE_IN,
     TIME_FROM_PTP_1588,
     TIME_FROM_ROS_TIME
     }"/>
-   <arg name="ptp_utc_tai_offset" default="-37.0"
+  <arg name="ptp_utc_tai_offset" default="-37.0"
     description="UTC/TAI offset in seconds to apply when using TIME_FROM_PTP_1588"/>
   <arg name="metadata" default=""
     description="path to write metadata file when receiving sensor data"/>
   <arg name="bag_file"
     description="file name to use for the recorded bag file"/>
+  <arg name="bag_offset"
+    description="Skip bag file for this many seconds"/>
   <arg name="viz" default="true"
     description="whether to run a rviz"/>
   <arg name="rviz_config" default="$(find-pkg-share ouster_ros)/config/viz-reliable.rviz"
@@ -100,6 +102,7 @@
   <executable if="$(var _use_bag_file_name)" output="screen"
     launch-prefix="bash -c 'sleep 3; $0 $@'"
     cmd="ros2 bag play $(var bag_file) --clock
+      --start-offset $(var bag_offset)
       --qos-profile-overrides-path
       $(find-pkg-share ouster_ros)/config/metadata-qos-override.yaml"/>
 
