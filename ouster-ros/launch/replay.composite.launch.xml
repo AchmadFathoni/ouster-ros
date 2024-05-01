@@ -16,7 +16,7 @@
     description="path to write metadata file when receiving sensor data"/>
   <arg name="bag_file"
     description="file name to use for the recorded bag file"/>
-  <arg name="bag_offset"
+  <arg name="bag_offset" default="0.1"
     description="Skip bag file for this many seconds"/>
   <arg name="viz" default="true"
     description="whether to run a rviz"/>
